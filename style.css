@@ -1,0 +1,668 @@
+:root {
+    --primary-color: #2c3e50;
+    --accent-color: #27ae60; /* Verde institucional do IFSP */
+    --bg-color: #f5f7fa;
+    --card-bg: #ffffff;
+    --text-color: #333333;
+    --danger-color: #e74c3c;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* --- TELA DE BOAS VINDAS --- */
+#welcomeScreen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.welcome-title {
+    color: var(--primary-color);
+    margin-bottom: 30px;
+}
+
+.btn-group {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.rect-button {
+    background-color: var(--card-bg);
+    border: 3px solid var(--primary-color);
+    border-radius: 12px;
+    padding: 30px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.rect-button:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.rect-button.admin {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+.rect-button.admin:hover {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+/* --- TELA DE AUTENTICAÇÃO --- */
+#authScreen {
+    display: none;
+    max-width: 400px;
+    margin: 80px auto;
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.auth-toggle {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+.auth-toggle span {
+    cursor: pointer;
+    font-weight: bold;
+    color: #7f8c8d;
+}
+
+.auth-toggle span.active {
+    color: var(--accent-color);
+    border-bottom: 3px solid var(--accent-color);
+    padding-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.form-group input, .form-group select, .form-group textarea, .admin-block input, .admin-block select, .admin-block textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #bdc3c7;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-back {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    color: #7f8c8d;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* --- PAINEL DE GERENCIAMENTO --- */
+#adminPanel {
+    display: none;
+    background: #e2f0d9;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    border: 1px solid var(--accent-color);
+}
+
+#adminPanel h3 {
+    margin-top: 0;
+    color: #276a3e;
+}
+
+.admin-sections {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .admin-sections { grid-template-columns: 1fr; }
+}
+
+.admin-block {
+    background: rgba(255,255,255,0.85);
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,0.06);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.admin-block h4 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    color: var(--primary-color);
+}
+.admin-block input, .admin-block select, .admin-block textarea { margin-bottom: 10px; background: white; }
+
+.btn-admin-action {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-admin-action.notice-btn {
+    background: #f39c12;
+}
+
+.btn-delete {
+    background: var(--danger-color);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+/* --- QUADRO DE AVISOS --- */
+.notice-board {
+    background: #fff3cd;
+    border-left: 6px solid #ffc107;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 25px;
+}
+
+.notice-board h2 { margin-top: 0; color: #856404; font-size: 20px; }
+.notice-item {
+    background: rgba(255,255,255,0.6);
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* --- APP PRINCIPAL E GRID --- */
+#mainApp { display: none; }
+header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 2px solid #ddd; padding-bottom: 15px; }
+
+.search-box { width: 100%; padding: 15px; font-size: 16px; border: 2px solid #bdc3c7; border-radius: 8px; box-sizing: border-box; margin-bottom: 25px; }
+.search-box:focus { border-color: var(--accent-color); }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+.card { background: var(--card-bg); border-radius: 8px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-top: 4px solid #7f8c8d; display: flex; flex-direction: column; justify-content: space-between;}
+
+.badge { display: inline-block; background-color: #e8f4fd; color: #3498db; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; margin-bottom: 10px; text-transform: uppercase; align-self: flex-start; }
+.info-item { font-size: 14px; margin: 5px 0; }
+.info-label { font-weight: bold; color: #7f8c8d; }
+.logout-btn { background-color: #c0392b; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; }
+.no-results { grid-column: 1 / -1; text-align: center; color: #7f8c8d; font-size: 18px; padding: 40px; }
+
+
+/* ==========================================================================
+   🎨 NOVO: SISTEMA DE CORES DINÂMICAS POR ÁREA DA FÍSICA
+   ========================================================================== */
+
+/* --- MECÂNICA (Azul Clássico) --- */
+.card:has(.badge:contains-archived), /* Fallback de segurança */
+.card:has(span:-webkit-any-link), 
+.card { border-top-color: #3498db; } /* Cor padrão para novos ou Mecânica */
+.card:has(.badge) { border-top-color: #7f8c8d; } 
+
+/* Filtros específicos baseados no texto da tag badge */
+.card:has([data-area="Mecânica"]), .card:has(.badge:empty) { border-top-color: #3498db; }
+
+/* Injetando cores nas etiquetas e bordas usando seletores inteligentes do JS */
+.badge-mecanica { background-color: #e8f4fd; color: #3498db; }
+.card-mecanica { border-top-color: #3498db !important; }
+
+/* --- TERMODINÂMICA (Laranja/Vermelho Térmico) --- */
+.badge-termodinamica { background-color: #ffeee6; color: #e67e22; }
+.card-termodinamica { border-top-color: #e67e22 !important; }
+
+/* --- ONDULATÓRIA (Roxo/Frequência) --- */
+.badge-ondulatoria { background-color: #f3e5f5; color: #9b59b6; }
+.card-ondulatoria { border-top-color: #9b59b6 !important; }
+
+/* --- ELETROMAGNETISMO (Amarelo/Eletricidade) --- */
+.badge-eletromagnetismo { background-color: #fffde7; color: #f1c40f; dark-beige: #d4ac0d; }
+/* Como amarelo puro no texto fica ruim de ler, usamos um tom mais escuro para a fonte */
+.badge-eletromagnetismo { background-color: #fef9e7; color: #b7950b; }
+.card-eletromagnetismo { border-top-color: #f1c40f !important; }
+
+/* --- ÓPTICA (Verde/Ciano Refração) --- */
+.badge-optica { background-color: #e0f7fa; color: #16a085; }
+.card-optica { border-top-color: #16a085 !important; }
+
+/* --- OUTROS / NÃO DEFINIDO (Cinza) --- */
+.badge-outros { background-color: #f2f4f4; color: #7f8c8d; }
+.card-outros { border-top-color: #bdc3c7 !important; }
+
+.badge-instrumentosdemedida { background-color: #f0edfc; color: #6c5ce7; }
+.card-instrumentosdemedida { border-top-color: #6c5ce7 !important; }
+
+.badge-item { background-color: #eafaf1; color: #27ae60; }
+.card-item { border-top-color: #2ecc71 !important; }
+
+.badge-semdefinicao { background-color: #fdedec; color: #c0392b; }
+.card-semdefinicao { border-top-color: #e74c3c !important; }
+
+/* --- BOTÕES DE AÇÃO NO CARD (EDITAR/EXCLUIR) --- */
+.card-header-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-bottom: 5px;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 2px 4px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.btn-icon:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.btn-icon-excluir {
+    background-color: rgba(231, 76, 60, 0.1) !important;
+    border: 1px solid rgba(231, 76, 60, 0.4) !important;
+    box-shadow: 0 0 6px rgba(231, 76, 60, 0.35);
+}
+.btn-icon-excluir:hover {
+    background-color: rgba(231, 76, 60, 0.25) !important;
+    box-shadow: 0 0 12px rgba(231, 76, 60, 0.6);
+}
+/* --- SELO DE STATUS (estilo "neon": cor viva + brilho leve) --- */
+.status-badge {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    border: 1px solid transparent;
+}
+.status-ativo {
+    background-color: rgba(46, 204, 113, 0.12);
+    color: #27ae60;
+    border-color: rgba(46, 204, 113, 0.55);
+    box-shadow: 0 0 8px rgba(46, 204, 113, 0.45);
+}
+.status-reparo {
+    background-color: rgba(243, 156, 18, 0.14);
+    color: #d68910;
+    border-color: rgba(243, 156, 18, 0.55);
+    box-shadow: 0 0 8px rgba(243, 156, 18, 0.45);
+}
+.status-defeito {
+    background-color: rgba(231, 76, 60, 0.14);
+    color: #e74c3c;
+    border-color: rgba(231, 76, 60, 0.55);
+    box-shadow: 0 0 8px rgba(231, 76, 60, 0.45);
+}
+.status-desativado {
+    background-color: rgba(127, 140, 141, 0.12);
+    color: #7f8c8d;
+    border-color: rgba(127, 140, 141, 0.4);
+    box-shadow: none;
+}
+body.dark-mode .status-ativo { color: #2ecc71; }
+body.dark-mode .status-reparo { color: #f39c12; }
+body.dark-mode .status-defeito { color: #ff6b5b; }
+body.dark-mode .status-desativado { color: #9aa1a8; }
+
+/* Card com experimento desativado: fica visível mas "apagado" */
+.card-desativado {
+    opacity: 0.55;
+    filter: grayscale(35%);
+}
+.card-desativado:hover { opacity: 0.85; }
+
+.card-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 5px;
+}
+.card-clicavel { cursor: pointer; }
+
+/* --- MODAL DE DETALHES DO EXPERIMENTO --- */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+.modal-content {
+    background: #fff;
+    border-radius: 10px;
+    padding: 24px;
+    max-width: 480px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+.modal-content h3 {
+    margin-top: 0;
+}
+.modal-fechar {
+    float: right;
+    cursor: pointer;
+    font-size: 18px;
+    background: none;
+    border: none;
+    color: #7f8c8d;
+}
+.modal-relato-item {
+    border: 1px solid #eee;
+    border-radius: 6px;
+    padding: 8px 10px;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+.modal-relato-acoes {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+}
+.modal-relato-acoes button {
+    font-size: 12px;
+    padding: 4px 8px;
+}
+.modal-secao {
+    border-top: 1px solid #eee;
+    margin-top: 18px;
+    padding-top: 14px;
+}
+.modal-secao h4 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    color: var(--primary-color);
+}
+
+/* --- BOTÃO DE ALTERNAR TEMA --- */
+.botao-tema {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 1100;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid #e0e0e0;
+    background: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    transition: transform 0.2s;
+}
+.botao-tema:hover { transform: scale(1.08); }
+
+/* --- MODO ESCURO --- */
+body.dark-mode {
+    --primary-color: #eceff1;
+    --bg-color: #14181c;
+    --card-bg: #22282e;
+    --text-color: #e8e8e8;
+}
+body.dark-mode .botao-tema {
+    background: #22272b;
+    border-color: #3a3f44;
+}
+/* Elevação e contorno sutil dos cards, pra não "somar" com o fundo */
+body.dark-mode .card {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+    border: 1px solid #33393f;
+    border-top-width: 4px;
+}
+body.dark-mode #authScreen,
+body.dark-mode .modal-content,
+body.dark-mode #adminPanel,
+body.dark-mode .admin-block,
+body.dark-mode #searchBar,
+body.dark-mode .notice-board {
+    background-color: var(--card-bg) !important;
+    color: var(--text-color) !important;
+    border-color: #33393f !important;
+}
+body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, body.dark-mode h4,
+body.dark-mode label, body.dark-mode p {
+    color: var(--text-color) !important;
+}
+body.dark-mode .info-label,
+body.dark-mode .info-item,
+body.dark-mode small {
+    color: #9aa1a8 !important;
+}
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+    background-color: #2a2f34 !important;
+    color: var(--text-color) !important;
+    border-color: #3a3f44 !important;
+}
+body.dark-mode .notice-item,
+body.dark-mode .modal-relato-item {
+    background-color: #2a2f34 !important;
+    border-color: #3a3f44 !important;
+}
+body.dark-mode .modal-secao {
+    border-top-color: #3a3f44 !important;
+}
+body.dark-mode .modal-fechar {
+    color: #9aa1a8 !important;
+}
+body.dark-mode .no-results {
+    color: #9aa1a8 !important;
+}
+
+body.dark-mode .admin-block {
+    border-color: #33393f !important;
+}
+body.dark-mode .admin-block h4 {
+    border-bottom-color: #33393f !important;
+}
+body.dark-mode .card-desativado {
+    filter: grayscale(50%) brightness(0.85);
+}
+
+/* --- MINIATURA DE IMAGEM NO CARD --- */
+.card-thumb {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+    margin: -1px -1px 12px -1px;
+    display: block;
+}
+
+/* --- SELO DE PATRIMÔNIO (aparece no modo inventário) --- */
+.status-patrimonio {
+    background-color: rgba(52, 73, 94, 0.1);
+    color: #34495e;
+    border-color: rgba(52, 73, 94, 0.4);
+    font-family: monospace;
+}
+body.dark-mode .status-patrimonio {
+    background-color: rgba(200, 210, 220, 0.12);
+    color: #c8d2dc;
+    border-color: rgba(200, 210, 220, 0.35);
+}
+
+/* --- BLOQUEIO VISUAL DURANTE SALVAMENTO (evita cliques duplicados empilharem pedidos) --- */
+body.operacao-em-andamento {
+    cursor: wait;
+}
+body.operacao-em-andamento button,
+body.operacao-em-andamento .card-clicavel,
+body.operacao-em-andamento input,
+body.operacao-em-andamento select {
+    pointer-events: none !important;
+    opacity: 0.65;
+}
+body.operacao-em-andamento .btn-admin-action {
+    position: relative;
+}
+
+
+/* =======================================================
+   LABORATÓRIO DE RECURSOS NATURAIS — reagentes, filtros, histórico
+   ======================================================= */
+
+/* --- Formulário: campos em duas colunas e rótulos pequenos --- */
+.mini-label { display: block; font-size: 12px; font-weight: 600; color: #7f8c8d; margin: 2px 0 4px; }
+.linha-dupla { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.linha-dupla .form-group { margin-bottom: 10px; }
+.btn-mini { width: auto; padding: 6px 12px; font-size: 13px; margin: 0; }
+
+/* --- Filtros (chips) --- */
+.filtros { display: flex; gap: 8px; flex-wrap: wrap; margin: -12px 0 20px; }
+.filtro-chip {
+    border: 2px solid #bdc3c7; background: var(--card-bg); color: var(--primary-color);
+    padding: 7px 14px; border-radius: 999px; font-size: 14px; font-weight: 600; cursor: pointer;
+    transition: all .15s ease;
+}
+.filtro-chip:hover { border-color: var(--accent-color); }
+.filtro-chip.ativo { background: var(--accent-color); border-color: var(--accent-color); color: #fff; }
+
+/* --- Barras de nível (reagentes) --- */
+.rg-total { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin: 4px 0 6px;
+    font-size: 12px; font-weight: 700; color: #7f8c8d; letter-spacing: .3px; }
+.rg-total b { font-size: 20px; color: var(--primary-color); }
+.rg-total small { font-size: 13px; font-weight: 600; color: #7f8c8d; }
+.rg-barra { height: 22px; background: #e6ebf1; border-radius: 11px; overflow: hidden; }
+.rg-barra i, .lf-barra i { display: block; height: 100%; border-radius: inherit; min-width: 4px; transition: width .3s ease; }
+.rg-barra i.g, .lf-barra i.g { background: #2fb35f; }
+.rg-barra i.y, .lf-barra i.y { background: #f0a928; }
+.rg-barra i.r, .lf-barra i.r { background: #e04a4a; }
+
+.frascos { margin-top: 12px; padding-top: 8px; border-top: 1px solid #e6ebf1; }
+.linha-frasco { display: flex; align-items: center; gap: 8px; margin: 8px 0; font-size: 13px; flex-wrap: wrap; }
+.lf-nome { flex: 1 1 100%; color: #44546a; font-weight: 600; }
+.lf-barra { flex: 1 1 80px; height: 12px; background: #e6ebf1; border-radius: 6px; overflow: hidden; min-width: 60px; }
+.lf-vol { font-weight: 700; white-space: nowrap; }
+.frasco-descartado { opacity: .55; }
+.mais-frascos { font-size: 12px; color: #7f8c8d; margin-top: 4px; }
+
+/* chips de validade por frasco */
+.val { font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 7px; white-space: nowrap; }
+.val-ok { background: #dff5e6; color: #16723a; }
+.val-warn { background: #fff0cf; color: #9a6200; }
+.val-bad { background: #fde0e0; color: #b32020; }
+.val-cinza { background: #eef2f7; color: #5b6b7b; }
+
+/* etiquetas */
+.tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
+.tag { font-size: 12px; font-weight: 700; padding: 4px 9px; border-radius: 8px; background: #eef2f7; color: #33475b; text-decoration: none; }
+.tag-perigo { background: #fde0e0; color: #b32020; }
+.tag-fds { background: #e3effc; color: #1f5fa8; cursor: pointer; }
+.tag-fds:hover { background: #cfe3f8; }
+
+/* modal do reagente */
+.selos-linha { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 12px; }
+.frasco-admin { border: 1px solid #e6ebf1; border-radius: 10px; padding: 8px 12px; margin: 10px 0; }
+.frasco-acoes { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 6px; }
+.frasco-acoes .btn-icon { width: auto; padding: 5px 10px; font-size: 13px; }
+
+/* --- Modo escuro --- */
+body.dark-mode .filtro-chip { background: #1f2a36; border-color: #3d4b5a; color: #dfe6ee; }
+body.dark-mode .filtro-chip.ativo { background: var(--accent-color); border-color: var(--accent-color); color: #fff; }
+body.dark-mode .rg-total b { color: #f1f5f9; }
+body.dark-mode .rg-barra, body.dark-mode .lf-barra { background: #2c3947; }
+body.dark-mode .frascos { border-top-color: #33414f; }
+body.dark-mode .lf-nome { color: #c3cfdb; }
+body.dark-mode .lf-vol { color: #e6edf4; }
+body.dark-mode .frasco-admin { border-color: #33414f; }
+body.dark-mode .val-ok { background: #1c4630; color: #7be0a3; }
+body.dark-mode .val-warn { background: #4a3a14; color: #ffcf70; }
+body.dark-mode .val-bad { background: #4d2323; color: #ff9d9d; }
+body.dark-mode .val-cinza, body.dark-mode .tag { background: #2c3947; color: #cfd9e3; }
+body.dark-mode .tag-perigo { background: #4d2323; color: #ff9d9d; }
+body.dark-mode .tag-fds { background: #1f3a5c; color: #8fc2ff; }
+body.dark-mode .mini-label { color: #9aa7b4; }
+
+@media (max-width: 520px) {
+    .linha-dupla { grid-template-columns: 1fr; }
+    .lf-vol { font-size: 12px; }
+}
+
+/* alinhamento da busca com o botão de atualizar */
+#searchBar { margin-bottom: 0; }
+.filtros { margin: 14px 0 20px; }
+.btn-atualizar { font-size: 22px; padding: 6px 10px; }
+
+/* título + categoria (texto colorido, sem caixa) abaixo do nome; selos de status à direita */
+.card-top-row { margin-bottom: 14px; }
+.card-titulo { flex: 1; min-width: 0; }
+.card-titulo h3 { margin: 0; font-size: 18px; line-height: 1.2; color: var(--primary-color); overflow-wrap: anywhere; }
+.card-cat { margin-top: 4px; font-size: 12px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; }
+.card-selos { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; max-width: 55%; }
+body.dark-mode .card-titulo h3 { color: #f1f5f9; }

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema do Laboratório de Recursos Naturais</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<button id="botaoTema" class="botao-tema" onclick="alternarTema()" title="Alternar tema" aria-label="Alternar tema claro/escuro">🌙</button>
+
+<div class="container">
+
+    <div id="welcomeScreen">
+        <h1 class="welcome-title">Laboratório de Recursos Naturais<br><small style="font-size: 16px; color:#7f8c8d;">Selecione seu perfil de acesso</small></h1>
+        <div id="avisoInventario" style="display:none;"></div>
+        <div class="btn-group">
+            <button id="btnSouAluno" class="rect-button" onclick="entrarComoAluno()">SOU ALUNO<br><span style="font-size: 12px; font-weight: normal; display: block;">Consulta de reagentes e equipamentos</span></button>
+            <button class="rect-button admin" onclick="mostrarTelaAuth()">SOU PROFESSOR / MONITOR<br><span style="font-size: 12px; font-weight: normal; display: block;">Painel de Controle</span></button>
+        </div>
+    </div>
+
+    <div id="authScreen">
+        <div class="auth-toggle">
+            <span id="tabLogin" class="active" onclick="alternarTab('login')">Entrar</span>
+            <span id="tabCadastro" onclick="alternarTab('cadastro')">Cadastrar</span>
+        </div>
+
+        <form id="formLogin" onsubmit="executarLogin(event)">
+            <div class="form-group">
+                <label for="loginId">ID de Usuário (RNXXXXXXX)</label>
+                <input type="text" id="loginId" placeholder="Ex: RN1234567" required>
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">Senha</label>
+                <input type="password" id="loginPassword" required>
+            </div>
+            <button type="submit" class="btn-submit">Entrar no Painel</button>
+        </form>
+
+        <form id="formCadastro" onsubmit="executarCadastro(event)" style="display: none;">
+            <div class="form-group">
+                <label for="cadNome">Nome Completo</label>
+                <input type="text" id="cadNome" placeholder="Seu Nome" required>
+            </div>
+            <div class="form-group">
+                <label for="cadPassword">Criar Senha</label>
+                <input type="password" id="cadPassword" required>
+            </div>
+            <div class="form-group">
+                <label for="cadPasswordConfirm">Confirme a Senha</label>
+                <input type="password" id="cadPasswordConfirm" required>
+            </div>
+            <div class="form-group">
+                <label for="cadChave">Chave do Laboratório (Código Mestre)</label>
+                <input type="password" id="cadChave" placeholder="Digite a chave de segurança" required>
+            </div>
+            <button type="submit" class="btn-submit">Gerar meu ID e Cadastrar</button>
+        </form>
+
+        <a class="btn-back" onclick="voltarParaInicio()">← Voltar</a>
+    </div>
+
+    <div id="mainApp">
+        <header>
+            <div>
+                <h1 style="margin:0; font-size: 24px;">Inventário de Recursos Naturais</h1>
+                <span id="userStatus" style="font-size: 14px; color: #7f8c8d;">Modo: Leitura (Estudante)</span>
+            </div>
+            <button class="logout-btn" onclick="voltarParaInicio()">Sair / Bloquear</button>
+        </header>
+
+        <div id="adminPanel">
+            <h3>⚙️ Painel de Gerenciamento (Acesso Restrito)</h3>
+
+            <div class="admin-sections">
+                <div class="admin-block">
+                    <h4>+ Adicionar Item</h4>
+                    <form id="formNovoExperimento" onsubmit="adicionarExperimentoNoGrid(event)">
+                        <label class="mini-label" for="expTipo">Tipo do item</label>
+                        <select id="expTipo">
+                            <option value="Reagente">🧪 Reagente (líquido ou sólido)</option>
+                            <option value="Equipamento">🔬 Equipamento / Vidraria</option>
+                        </select>
+                        <input type="text" id="expNome" placeholder="Nome (Ex: Etanol 95%, Proveta 100 mL)" required>
+                        <select id="expArea" required>
+                            <option value="">Selecione a Categoria...</option>
+                        </select>
+                        <div id="expNovaCategoriaBloco" style="display:none; margin-bottom:10px;">
+                            <input type="text" id="expNovaCategoriaNome" placeholder="Nome da nova categoria" style="margin-bottom:6px;">
+                            <label style="font-size:12px; display:block; margin-bottom:4px;">Cor da categoria</label>
+                            <input type="color" id="expNovaCategoriaCor" value="#3498db" style="height:38px; padding:2px; width:100%;">
+                        </div>
+                        <input type="text" id="expLocal" placeholder="Localização (Ex: Armário A, Capela, Geladeira)">
+                        <input type="text" id="expComp" placeholder="Observações">
+
+                        <div id="blocoReagente">
+                            <div class="linha-dupla">
+                                <div>
+                                    <label class="mini-label" for="expVolFrasco">Volume do frasco</label>
+                                    <input type="number" id="expVolFrasco" min="0" step="any" placeholder="Ex: 1">
+                                </div>
+                                <div>
+                                    <label class="mini-label" for="expUnidade">Unidade</label>
+                                    <select id="expUnidade">
+                                        <option value="mL">mL</option>
+                                        <option value="L" selected>L</option>
+                                        <option value="g">g</option>
+                                        <option value="kg">kg</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <label class="mini-label" for="expValidade">Validade (deixe em branco se não tiver)</label>
+                            <input type="date" id="expValidade">
+                            <input type="text" id="expLote" placeholder="Lote (opcional)">
+                            <input type="text" id="expPerigo" list="listaPerigos" placeholder="Perigo (Ex: Inflamável, Corrosivo)">
+                            <datalist id="listaPerigos">
+                                <option value="Inflamável"></option>
+                                <option value="Corrosivo"></option>
+                                <option value="Tóxico"></option>
+                                <option value="Oxidante"></option>
+                                <option value="Irritante"></option>
+                                <option value="Nocivo ao meio ambiente"></option>
+                            </datalist>
+                            <label class="mini-label" for="expEstoqueMin">Estoque mínimo (mesma unidade — gera alerta)</label>
+                            <input type="number" id="expEstoqueMin" min="0" step="any" placeholder="Ex: 0,5">
+                        </div>
+
+                        <div id="blocoEquipamento" style="display:none;">
+                            <input type="text" id="expCapacidade" placeholder="Capacidade (Ex: 100 mL)">
+                            <input type="text" id="expPatrimonio" placeholder="Nº de patrimônio (só se for 1 unidade)">
+                        </div>
+
+                        <label class="mini-label" for="expQuantidade" id="rotuloQuantidade">Quantos frascos iguais</label>
+                        <input type="number" id="expQuantidade" min="1" value="1" title="Quantas unidades físicas existem deste item">
+                        <button type="submit" class="btn-admin-action">Cadastrar</button>
+                    </form>
+                </div>
+
+                <div class="admin-block">
+                    <h4>📢 Postar Novo Aviso no Mural</h4>
+                    <form id="formNovoAviso" onsubmit="adicionarAvisoNoMural(event)">
+                        <input type="text" id="avisoAutor" placeholder="Seu Nome/Cargo (Ex: Prof. Carlos)" required>
+                        <textarea id="avisoTexto" placeholder="Escreva a mensagem aqui..." rows="3" required></textarea>
+                        <button type="submit" class="btn-admin-action notice-btn">Publicar Aviso</button>
+                    </form>
+                </div>
+
+                <div class="admin-block">
+                    <h4>🔧 Relatos Pendentes (<span id="contadorRelatos">0</span>)</h4>
+                    <div id="relatosPendentesList" style="max-height: 220px; overflow-y: auto;"></div>
+                </div>
+
+                <div class="admin-block">
+                    <h4>📒 Histórico de uso (últimos registros)</h4>
+                    <div id="historicoList" style="max-height: 220px; overflow-y: auto;"></div>
+                </div>
+
+                <div class="admin-block">
+                    <h4>📋 Roteiros Cadastrados (<span id="contadorRoteiros">0</span>)</h4>
+                    <div id="roteirosCadastradosList" style="max-height: 220px; overflow-y: auto;"></div>
+                </div>
+
+                <div class="admin-block">
+                    <h4>🔒 Modo Inventário</h4>
+                    <div id="painelModoInventario"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="notice-board">
+            <h2>📢 Quadro de Avisos do Laboratório</h2>
+            <div id="noticeList" class="notice-list">
+                </div>
+        </div>
+
+        <div style="display:flex; gap:10px; align-items:center;">
+            <input type="text" id="searchBar" class="search-box" placeholder="Pesquise por nome, categoria, local ou perigo (ex: etanol, ácidos, armário A)..." style="flex:1;">
+            <button class="btn-icon btn-atualizar" onclick="atualizarAgora()" title="Buscar dados mais recentes agora" aria-label="Atualizar dados">🔄</button>
+        </div>
+
+        <div id="filtros" class="filtros" role="group" aria-label="Filtros">
+            <button class="filtro-chip ativo" data-filtro="todos" onclick="definirFiltro('todos')">Todos</button>
+            <button class="filtro-chip" data-filtro="reagente" onclick="definirFiltro('reagente')">🧪 Reagentes</button>
+            <button class="filtro-chip" data-filtro="equipamento" onclick="definirFiltro('equipamento')">🔬 Equipamentos</button>
+            <button class="filtro-chip" data-filtro="atencao" onclick="definirFiltro('atencao')">⚠️ Precisam de atenção</button>
+            <button class="filtro-chip" id="chipVazios" data-filtro="vazios" onclick="definirFiltro('vazios')">🫙 Vazios</button>
+        </div>
+
+        <div id="experimentsGrid" class="grid"></div>
+    </div>
+
+    <div id="modalOverlay" class="modal-overlay" style="display:none;" onclick="fecharModalSeClicouFora(event)">
+        <div class="modal-content" id="modalConteudo"></div>
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
